@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDGs 性別平權</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url('home.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+    header {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      color: #fff;
+      font-weight: bold;
+    }
+    #score {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #fff;
+    }
+    .balloon {
+      position: absolute;
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .balloon:hover {
+      transform: scale(1.1);
+    }
+    #result {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.9);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      display: none;
+    }
+    #result button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>SDGs 性別平權</header>
+  <div id="score">答對: 0</div>
+
+  <!-- 10 顆熱汽球 -->
+  <img src="hotairballoon.png" class="balloon" style="top:100px; left:50px;" onclick="askQuestion(0)">
+  <img src="hotairballoon.png" class="balloon" style="top:200px; left:200px;" onclick="askQuestion(1)">
+  <img src="hotairballoon.png" class="balloon" style="top:150px; left:350px;" onclick="askQuestion(2)">
+  <img src="hotairballoon.png" class="balloon" style="top:300px; left:100px;" onclick="askQuestion(3)">
+  <img src="hotairballoon.png" class="balloon" style="top:250px; left:400px;" onclick="askQuestion(4)">
+  <img src="hotairballoon.png" class="balloon" style="top:100px; left:500px;" onclick="askQuestion(5)">
+  <img src="hotairballoon.png" class="balloon" style="top:350px; left:250px;" onclick="askQuestion(6)">
+  <img src="hotairballoon.png" class="balloon" style="top:400px; left:450px;" onclick="askQuestion(7)">
+  <img src="hotairballoon.png" class="balloon" style="top:50px; left:600px;" onclick="askQuestion(8)">
+  <img src="hotairballoon.png" class="balloon" style="top:300px; left:600px;" onclick="askQuestion(9)">
+
+  <div id="result">
+    <p id="result-text"></p>
+    <button id="retry-btn" onclick="location.reload()">重新挑戰</button>
+    <button id="next-btn" onclick="location.href='level2.html'">前往下一關</button>
+  </div>
+
+  <script>
+    const questions = [
+      {q: "題目1: 男女薪資應該平等？", a: "是"},
+      {q: "題目2: 男生不能帶孩子？", a: "否"},
+      {q: "題目3: 女性可擔任領導職位？", a: "是"},
+      {q: "題目4: 性別不應限制工作選擇？", a: "是"},
+      {q: "題目5: 只男生能參加某運動？", a: "否"},
+      {q: "題目6: 家務分工應公平？", a: "是"},
+      {q: "題目7: 性別歧視應被禁止？", a: "是"},
+      {q: "題目8: 女生不適合科技職？", a: "否"},
+      {q: "題目9: 平等教育對男女都重要？", a: "是"},
+      {q: "題目10: 性別平等只影響女性？", a: "否"}
+    ];
+
+    let score = 0;
+    let answered = Array(questions.length).fill(false);
+
+    function askQuestion(index) {
+      if(answered[index]) return;
+      const userAnswer = prompt(questions[index].q + " (是/否)");
+      if(userAnswer === questions[index].a) score++;
+      answered[index] = true;
+      document.getElementById('score').innerText = "答對: " + score;
+
+      if(answered.every(a => a)) showResult();
+    }
+
+    function showResult() {
+      const resultDiv = document.getElementById('result');
+      const retryBtn = document.getElementById('retry-btn');
+      const nextBtn = document.getElementById('next-btn');
+      if(score >= 8) {
+        document.getElementById('result-text').innerText = `恭喜！你答對 ${score} 題，前往下一關吧！`;
+        retryBtn.style.display = "none";
+        nextBtn.style.display = "inline-block";
+      } else {
+        document.getElementById('result-text').innerText = `你答對 ${score} 題，請重新挑戰！`;
+        retryBtn.style.display = "inline-block";
+        nextBtn.style.display = "none";
+      }
+      resultDiv.style.display = "block";
+    }
+  </script>
+</body>
+</html>
